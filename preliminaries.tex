@@ -3,7 +3,11 @@
 	A random variable $X$ is said to be \emph{sub-gaussian}
 	if $\prob(\abs{X}\geq t)\leq 2\exp(-t^2/K^2)$ for
 	every $t\geq 0$. The \emph{sub-gaussian norm}, $\pnorm{X}{\psi_2}$,
-	of $X$ is then proportional to $K$.
+	of $X$ is defined as the smallest $k$ for which
+	$\E\exp(X^2/k^2)\leq 2$.
+	%$$\inf\{k: \E\exp(X^2/k^2)\leq 2\}.$$
+	%For a given distribution, $\pnorm{X}{\psi_2}$ is a constant
+	%multiple of $K$.
 	A random vector $X$ in $\R^n$ is sub-gaussian if
 	$\ip{X}{x}$ is subgaussian for every $x\in\R^n$. Its
 	sub-gaussian norm, $\pnorm{X}{\psi_2} := \sup_{x\in\R^n}
@@ -11,10 +15,10 @@
 \end{definition}
 
 \begin{definition}
-	The \emph{gaussian width} $w(T)$ of a subset $T\subseteq \R^n$ is
+	Suppose $g\sim N(0, I_n)$, then
+	the \emph{gaussian width} $w(T)$ of a subset $T\subseteq \R^n$ is
 	defined as $\E\sup_{x\in T}\ip{x}{g}$ and its \emph{gaussian
-	complexity} as $\gamma(T) = \E\sup_{x\in T}\abs{\ip{x}{g}}$,
-	where $g\sim N(0, I_n)$.
+	complexity} as $\gamma(T) = \E\sup_{x\in T}\abs{\ip{x}{g}}$.
 \end{definition}
 
 \begin{definition}
@@ -25,7 +29,7 @@
 
 \begin{definition}[Sparsity]
 	The \emph{support} of a vector $x\in \R^n$ is the set
-	$\{i\in\{1,\ldots,n\}: x_i\neq 0\}$ (the set of non-zero indices).
+	$\{i: x_i\neq 0\}$ (the set of non-zero indices).
 	The \emph{sparsity} of a vector $x$ in $\R^n$ is defined as the
 	cardinality of its support and is denoted by $\pnorm{x}{0}$.
 	A vector with $\pnorm{x}{0}\leq s$ is said to be $s-$sparse.

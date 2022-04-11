@@ -1,14 +1,35 @@
 \begin{abstract}
-The matrix $A$ of dimension $m\times n$, where $m\ll n$ is known.
-And a linear measurement of $x$, $y = Ax$ is known, where $A$ is
-a known matrix. The goal is to find $x$ from the measurement.
-Without any assumptions on $x$, the system is
-underdetermined and has a subspace of dimension at least $n-m$
-solutions. But when it is known that most of the coordinates of
-$x$ are zero (i.e., $x$ is sparse), useful estimates for the solution
-$x$ can be obtained
-and under some circumstances, the solution can be exactly recovered.
-This report will discuss the main results that allow recovery of
-sparse vectors from a linear measurement $Ax$.
+  Suppose a linear measurement, $y = Ax$ of an unknown vector
+  $x\in\R^n$ is given, where the measurement matrix
+  $A\in\R^{m\times n}$, with $m\ll n$ is known. The goal is to recover
+  $x$ from the measurement.
+  Without any assumptions on $x$, the system is underdertermined
+  and has a subspace of dimension at least $n-m$ possible solutions.
+  But when it is known that most of the coordinates of $x$ are zero
+  (i.e., $x$ is sparse), it is possible to recover $x$ when 
+  $m\sim O(s\log n)$, where $s$ is the number of non-zero
+  coordinates of $x$. This report will discuss the main
+  results that allow recovery of sparse vectors from a linear
+  measurement.
+%
+%  Suppose a vector $x\in\R^n$ is given. If we need to
+%  know each coordinate of $x$, we need $n$ linear measurements
+%  However, when it is known that most of the coordinates of $x$
+%  are zero (i.e., $x$ is sparse),
+%  $x$ can be measured using very few measurements
+%  (roughly $O(\log n)$). This is surprising because, even though
+%  we know most coordinates are zero, 
+%
+%The matrix $A$ of dimension $m\times n$, where $m\ll n$ is known.
+%And a linear measurement of $x$, $y = Ax$ is known, where $A$ is
+%a known matrix. The goal is to find $x$ from the measurement.
+%Without any assumptions on $x$, the system is
+%underdetermined and has a subspace of dimension at least $n-m$
+%solutions. But when it is known that most of the coordinates of
+%$x$ are zero (i.e., $x$ is sparse), useful estimates for the solution
+%$x$ can be obtained
+%and under some circumstances, the solution can be exactly recovered.
+%This report will discuss the main results that allow recovery of
+%sparse vectors from a linear measurement $Ax$.
 \end{abstract}
 

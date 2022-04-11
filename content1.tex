@@ -1,25 +1,36 @@
-\section{Recovery based on $M^*$ bound}
-\begin{theorem}[Matrix deviation inequality]
-	Suppose $A$ is an $m\times n$ real matrix, whose rows 
-	$A_i$ are independent, isotropic, sub-gaussian random vectors
-	in $\R^n$ then for $T\subseteq \R^n$,
+\section{Approximate Recovery based on $M^*$ bound}
+\begin{definition}
+	The class $\mathcal{A}(m, n)$ of random matrices is defined
+	as the collection of all random matrices in $\R^{m\times n}$,
+	whose rows $A_i$ are independent and isotropic
+	sub-gaussian random vectors in $\R^n$. For $A\in\mathcal{A}(m,n)$,
+	$K(A)$ (or simply $K$) is defined as $\max_i \pnorm{A_i}{\psi_2}$.
+\end{definition}
+In this section, we will take $A$ to be sampled from the
+class $\mathcal{A}(m, n)$. We will discuss a method for obtaining
+approximate solution for the sparse recovery problem in this case.
+
+In section \ref{escapesec}, we will find conditions under which
+this solution is exact and
+later,
+in section \ref{RIP}, we will solve the same problem when $A$ lies in
+a deterministic class of matrices.
+\begin{theorem}[Matrix deviation inequality: Liaw, Mehrabian,  Plan, Vershynin. 2017]
+	Suppose $A\in\mathcal{A}(m, n)$, then for $T\subseteq \R^n$,
 	\begin{equation}\label{matrixdeviation}
 		\E \sup_{x\in T} \abs{\pnorm{Ax}{2}-\sqrt{m}\pnorm{x}{2}}
 			\leq CK^2\gamma(T).
 	\end{equation}
-	Here $K = \max_i \pnorm{A_i}{\psi_2}$.
 \end{theorem}
 This theorem is proved by first showing that the increments of
 the random process in the argument is bounded by a gaussian
-random process and then using Talagrand's comparison inequality.
+random process and then using Talagrand's comparison inequality\cite{hdp}.
 \begin{theorem}[$M^*$ bound]\label{mstarboundtheorem}
-	Suppose $T\subseteq \R^n$ and $A$ is an $m\times n$ real
-	matrix whose rows $A_i$ are independent, isotropic, sub-gaussian
-	random vectors in $\R^n$, then for any $z\in\R^n$, $E = z+\ker(A)$ satisfies
+	Suppose $T\subseteq \R^n$ and $A\in\mathcal{A}(m, n)$,
+	then for any $z\in\R^n$, $E = z+\ker(A)$ satisfies
 	\begin{equation}\label{mstarbound}
-		\E \text{diam}(T\cap E)\leq \frac{CK^2w(T)}{\sqrt{m}}.
+		\E \text{diam}(T\cap E)\leq ({CK^2w(T)})/{\sqrt{m}}.
 	\end{equation}
-	Here, $K$ is the same as that in the previous theorem.
 \end{theorem}
 \begin{proof}
 	Use matrix deviation inequality on the set $T-T$ to get
@@ -34,8 +45,8 @@ satisfying $A\hat{x} = y$.
 If we take $A$ in \eqref{problem0} to be as in the hypothesis of the above theorem,
 Then theorem \ref{mstarboundtheorem} gives a bound on expected $\ell_2$ error as
 \begin{equation}\label{mstarrecovery}
-	\E\sup_{\substack{{x'}\in T\\ A{x'}=y}}\pnorm{x-{x'}}{2}
-		\leq \frac{CK^2}{\sqrt{m}} w(T)
+	\E\sup_{\substack{{x'}\in T, A{x'}=y}}\pnorm{x-{x'}}{2}
+		\leq ({CK^2} w(T))/{\sqrt{m}}
 \end{equation}
 
 From the bound \eqref{mstarrecovery}, an approximate solution for the recovery problem
@@ -51,26 +62,36 @@ Then the bound in \eqref{mstarrecovery} is valid for $\tilde{x}$.
 
 This problem is computationally hard. So, we try to approximate
 by using the closest norm to $\pnorm{\cdot}{0}$, which is the $\ell_1$ norm.
-To that end, we show that the set of unit $s$-sparse vectors is contained
-in a scaled $\ell_1$ ball:
-\begin{proposition}\label{inclusiontheorem}
-	Let $B_1^n, B_2^n\in \R^n$ denote the unit balls
-	with respect to the $\ell_1$ and $\ell_2$ norms respectively, then
-	$S\cap B_2^n \subseteq \sqrt{s} B_1^n$
-\end{proposition}
+To that end, we observe by Cauchy-Schwarz inequality  that
+the set of unit $s$-sparse vectors is contained
+in the $\ell_1$ ball scaled by the square root of sparsity.
+That is, if $B_1^n$ and $B_2^n$ are the unit balls with respect
+to the $\ell_1$ and $\ell_2$ norms respectively, then
+\begin{equation}\label{inclusiontheorem}
+	S\cap B_2^n\subseteq \sqrt{s} B_1^n
+\end{equation}
+%since for any $x\in S\cap B_2^n$, using
+%cauchy 
+%\begin{proposition}\label{inclusiontheorem}
+%	Let $B_1^n, B_2^n\in \R^n$ denote the unit balls
+%	with respect to the $\ell_1$ and $\ell_2$ norms respectively, then
+%	$S\cap B_2^n \subseteq \sqrt{s} B_1^n$
+%\end{proposition}
 
-\begin{proof}
-	For any $x\in S\cap B_2^n$, using Cauchy-Schwarz inequality,
-	$\pnorm{x}{1}\leq \sqrt{\pnorm{x}{0}}\cdot \pnorm{x}{2}\leq \sqrt{s}$.
-\end{proof}
+%\begin{proof}
+%	For any $x\in S\cap B_2^n$, using Cauchy-Schwarz inequality,
+%	$\pnorm{x}{1}\leq \sqrt{\pnorm{x}{0}}\cdot \pnorm{x}{2}\leq \sqrt{s}$.
+%\end{proof}
+
 Now, applying \eqref{mstarrecovery} with $T = S\cap B_2^n$, we get
 \begin{equation}\label{scaledl1ball}
-	\E\sup_{\hat{x}\in B_1^n, A\hat{x}=y}\pnorm{x-\hat{x}}{2}\leq CK^2\sqrt{\frac{s\log n}{m}}.
+	\E\sup_{\hat{x}\in B_1^n, A\hat{x}=y}\pnorm{x-\hat{x}}{2}\leq
+	CK^2\sqrt{{s\log n}/{m}}.
 \end{equation}
 Here we have used the linearity propery of Gaussian width, $w(\sqrt{s}B_1^n)=\sqrt{s}w(B_1^n)$
 and that $w(B_1^n) = \E\max_{i\leq n} g_i$, where $g_i$ are standard normal random variables.
 And finally we used the result that the expected maximum of $n$ gaussians can be
-bounded by $C\sqrt{\log N}$ for a universal constant $C$.
+bounded by $C\sqrt{\log n}$ for a universal constant $C$.
 
 The condition that $\pnorm{x}{2}\leq 1$ can be removed and the problem can be stated as
  an optimization problem like \eqref{optprob0} as follows:
@@ -85,9 +106,12 @@ The condition that $\pnorm{x}{2}\leq 1$ can be removed and the problem can be st
  convex optimization methods like linear programming.
 
 \begin{theorem}\label{basispursuiterror}
-	$\hat{x}$, the solution of basis pursuit \eqref{basispursuit} satisfies
+	If
+	$\hat{x}$ is the solution of basis pursuit \eqref{basispursuit},
+	then
 	\begin{equation*}
-		\E\pnorm{x-\hat{x}}{2}\leq CK^2\sqrt{\frac{s\log n}{m}}\pnorm{x}{2}
+		\E\pnorm{x-\hat{x}}{2}\leq 
+		CK^2\sqrt{{(s\log n)}/{m}}\pnorm{x}{2}.
 	\end{equation*}
 \end{theorem}
 \begin{proof}

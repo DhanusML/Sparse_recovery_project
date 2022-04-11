@@ -35,18 +35,18 @@ The equivalent to basis pursuit here is
 	\begin{split}
 		&\hat{X} = \arg\min\pnorm{X'}{*}\\
 		&\text{subject to: } \ip{A_i}{X'} = y_i,\text{ for each }
-		i = 1\ldots n
+		i = 1\ldots n.
 	\end{split}
 \end{equation}
 
-From the above remark and proposition \ref{inclusiontheorem},
+From the above remark and \eqref{inclusiontheorem},
 we have $R\cap B_F \subseteq \sqrt{r}B_*$ ($B_F$ and $B_*$ are
 unit balls in Frobenius and nuclear norms).
 Now, if we assume $T =  B_F\cap R$, the calculations that
 lead to \eqref{scaledl1ball} in this case gives
 \begin{equation}\label{errorm}
 	\E\sup_{\substack{\hat{X}'\in \sqrt{r}B_1\\ \ip{A_i}{X'} = y_i}}
-	\pnorm{X'-X}{F}\leq \frac{CK^2\sqrt{r} w(B_*)}{\sqrt{m}}
+	\pnorm{X'-X}{F}\leq ({CK^2\sqrt{r} w(B_*)})/{\sqrt{m}}.
 \end{equation}
 Note that $K = \max_i \pnorm{A_i}{\psi_2}$, where $A_i$
 must be seen as a $d\times d$ vector.
@@ -70,18 +70,22 @@ must be seen as a $d\times d$ vector.
 	\norm{G}$.
 \end{proof}
 
-To find the expected operator norm of $G$, we observe that
-$({G_{uv}})_{u,v\in S^{d-1}}$ is a mean zero gaussian process and that
-the increments of the random process $G_{uv}$,
-$\E(G_{u_1v_1}-G_{u_2v_2})^2$ are bounded by the
-increments of another mean zero gaussian process
-$(H_{uv})_{u,v\in S^{d-1}} = \ip{g}{u} + \ip{h}{v}$, where
-$g, v$ are independent standard normal random vectors
-in $\R^d$.
-Now,
-Sudakov-Fernique comparison inequality can be used to obtain
-$\sup_{u,v\in S^{d-1}}G_{uv} \leq \sup_{u,v\in S^{d-1}}H_{uv} = \E\pnorm{g}{2}
-+ \E\pnorm{h}{2}\leq 2\E\sqrt{\pnorm{h}{2}^2} = 2\sqrt{d}$.
+To find the expected operator norm, we compare the two
+gaussian processes $\ip{u}{Gv}$ and $\ip{u}{g} + \ip{v}{h}$,
+where $u, v\in S^{d-1}$ and $g,h$ independant standard normal
+random vectors and then apply Sudakov-Fernique inequality\cite{hdp}.
+%To find the expected operator norm of $G$, we observe that
+%$({G_{uv}})_{u,v\in S^{d-1}}$ is a mean zero gaussian process and that
+%the increments of the random process $G_{uv}$,
+%$\E(G_{u_1v_1}-G_{u_2v_2})^2$ are bounded by the
+%increments of another mean zero gaussian process
+%$(H_{uv})_{u,v\in S^{d-1}} = \ip{g}{u} + \ip{h}{v}$, where
+%$g, v$ are independent standard normal random vectors
+%in $\R^d$.
+%Now,
+%Sudakov-Fernique comparison inequality can be used to obtain
+%$\sup_{u,v\in S^{d-1}}G_{uv} \leq \sup_{u,v\in S^{d-1}}H_{uv} = \E\pnorm{g}{2}
+%+ \E\pnorm{h}{2}\leq 2\E\sqrt{\pnorm{h}{2}^2} = 2\sqrt{d}$.
 Using this and 
 %From %remark \ref{matrixnormsremark} and
 theorem \ref{basispursuiterror}, we have
@@ -91,7 +95,7 @@ the following bound:
 	\ref{mbasispursuit}, then
 	\begin{equation*}
 		\E \pnorm{\hat{X}-X}{F}\leq CK^2\sqrt{\frac{rd}{m}}
-		\pnorm{X}{F}
+		\pnorm{X}{F}.
 	\end{equation*}
 \end{theorem}
 

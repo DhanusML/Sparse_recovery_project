@@ -1,14 +1,12 @@
-\section{Exact recovery}
-
+\section{Recovery using Escape theorem}\label{escapesec}
 In the previous section, we observed that
 a solution with small expected $\ell_2$ error can be obtained
 using basis pursuit. In this section, we will
 find the conditions under which the error becomes
 zero.
-\subsection{Recovery using Escape theorem}
+
 \begin{theorem}\label{exactrecoverytheorem}
-	In problem \eqref{problem0}, suppose the rows of $A$ are
-	independent, isotropic sub-gaussian random vectors and
+	In problem \eqref{problem0}, suppose $A\in\mathcal{A}(m, n)$ and
 	$T = S$. If $m\geq CK^4 s\log n$, then with
 	probability at least $1-2\exp(-cm/K^4)$,
 	basis pursuit solves the sparse recovery problem
@@ -27,15 +25,14 @@ with sub-gaussian rows misses sufficiently small subset of the unit sphere
 with high probability.
 
 \begin{theorem}\label{escapetheorem}
-	Consider $T\subseteq S^{n-1}$. Let $A$ be an $m\times n$
-	matrix whose rows are independent, isotropic sub gaussian
-	random vectors in $\R^n$. If
+	Consider $T\subseteq S^{n-1}$. Let $A\in \mathcal{A}(m, n)$. If
 	$m\geq CK^4w(T)^2$, then 
 	$T\cap \ker(A) = \emptyset$ with probability at least
 	$1-2\exp(-cm/K^4)$.
 \end{theorem}
 \begin{proof}
-	The proof uses tail bound version of matrix deviation inequality
+	The proof uses tail bound version of matrix deviation inequality,
+	which states
 	$$\sup_{a\in T}\abs{\pnorm{Aa}{2}-\sqrt{m}\pnorm{a}{2}}
 		\leq CK^2(w(T)+u)$$
 	with probability at least $1-2\exp(-u^2)$.
@@ -95,15 +92,18 @@ will prove the following lemma:
 \indent
 	\qed
 
-\subsection{Recovery using RIP}
-
+\section{Recovery using RIP}\label{RIP}
+Now we will consider a different class of matrices.
 \begin{definition}
 	An $m\times n$ matrix $A$ satisfies Restricted Isometry Property (RIP) with
 	parameters $\alpha, \beta$ and $s$ if for every $s$-sparse vector
 	$w$,
 	\begin{equation*}
-		\alpha \pnorm{w}{2}\leq \pnorm{Aw}{2}\leq \beta\pnorm{w}{2}
+		\alpha \pnorm{w}{2}\leq \pnorm{Aw}{2}\leq \beta\pnorm{w}{2}.
 	\end{equation*}
+	The set of $m\times n$ matrices satisfying RIP with parameters
+	$\alpha, \beta$ and $s$ will be denoted by
+	$RIP(m,n,\alpha, \beta, s)$.
 \end{definition}
 
 \begin{remark}\label{ripremark}
@@ -113,7 +113,7 @@ will prove the following lemma:
 	of $A$ lie between $\alpha$ and $\beta$.
 \end{remark}
 
-\begin{theorem}\label{ripimpliesexact}
+\begin{theorem}[Candes--Tao]\label{ripimpliesexact}
 	Suppose in \eqref{problem0}, $A$ satisfies RIP with parameters
 	$\alpha, \beta$ and $(1+\lambda)s$, with $\lambda >
 	(\beta/\alpha)^2$. Then basis pursuit \eqref{basispursuit}
@@ -121,6 +121,8 @@ will prove the following lemma:
 \end{theorem}
 
 \begin{proof}
+	Let $h_I\in \R^{|I|}$ denote
+	the projection of $h$ onto the subset of indices $I$.
 	Let $I_0$ be the support of $x$,
 	$I_1$ be the $\lambda s$ largest indices of $h_{I_0^c}$,
 	$I_2$ be the next $\lambda s$ largest indices and so on.
@@ -135,41 +137,36 @@ $.
 Left hand side is zero, since $Ah = A\hat{x} - Ax = 0$.
 So,
 	\begin{equation}\label{cond1}
-		\pnorm{A_{I_{0,1}}h_{I_{0,1}}}{2}\leq \pnorm{A_{I_{0,1}^c}h_{I_{0,1}^c}}{2} 
+		\pnorm{A_{I_{0,1}}h_{I_{0,1}}}{2}\leq \pnorm{A_{I_{0,1}^c}h_{I_{0,1}^c}}{2}.
 	\end{equation}
 Now, by RIP,
 	 \begin{equation}\label{cond2}
-		 \alpha \pnorm{h_{I_{0,1}}}{2}\leq \pnorm{A_{I_{0,1}}h_{I_{0,1}}}{2}
+		 \alpha \pnorm{h_{I_{0,1}}}{2}\leq \pnorm{A_{I_{0,1}}h_{I_{0,1}}}{2}.
 	 \end{equation}
 By triangle inequality and RIP,
 		\begin{equation}\label{aboveinequality}
             \pnorm{A_{I_{0,1}^c}h_{I_{0,1}^c}}{2} 
 			\leq  \sum_{j\geq 2} \pnorm{A_{I_j}h_{I_j}}{2}
-            \leq \beta\sum_{j\geq 2}\pnorm{h_{I_j}}{2}
+            \leq \beta\sum_{j\geq 2}\pnorm{h_{I_j}}{2}.
         \end{equation}
 Now observe that for any $j$,
-$
-		\pnorm{h_{I_j}}{2}\leq \sqrt{s\lambda}|\max{h_{I_j}}| \leq \sqrt{s\lambda}|\min h_{I_{j-1}}|
-	$ (here $\max$ and $\min$ are largest and smallest coordinates
-	respectively).
-Now, the smallest coordinate of $h_{I_{j-1}}$ is smaller than the average of the other coordinates so,
         $
 		\pnorm{h_{I_j}}{2}\leq \sqrt{\lambda s}\frac{\pnorm{h_{I_{j-1}}}{1}}{{\lambda s}}
         $.
 	Substituting this in \eqref{aboveinequality} gives
         \begin{equation}\label{eqpen}
-			\pnorm{A_{I_{0,1}^c}h_{I_{0,1}^c}}{2}\leq (\beta/\sqrt{s\lambda)}\pnorm{h_{I_0^c}}{1}
+			\pnorm{A_{I_{0,1}^c}h_{I_{0,1}^c}}{2}\leq (\beta/\sqrt{s\lambda)}\pnorm{h_{I_0^c}}{1}.
         \end{equation}
     From the first part of lemma \ref{lemma1er}, $\pnorm{h_{I_0^c}}{1}\leq \pnorm{h_{I_0}}{1}$
     By Cauchy-Schwarz inequality, $\pnorm{h_{I_0}}{1}\leq \sqrt{s}\pnorm{h_{I_0}}{2}$
     Substituting this in \eqref{eqpen}, we get
-    \[
-        \pnorm{A_{I_{0,1}^c}h_{I_{0,1}^c}}{2}\leq \frac{\beta}{\sqrt{\lambda}}\pnorm{h_{I_0}}{2}
-    \]
-    From \eqref{cond1}, \eqref{cond2} and the above inequality, we get
+    $
+        \pnorm{A_{I_{0,1}^c}h_{I_{0,1}^c}}{2}\leq \frac{\beta}{\sqrt{\lambda}}\pnorm{h_{I_0}}{2}.
+    $
+    From \eqref{cond1}, \eqref{cond2} and the previous inequality, we get
     $
         \alpha \pnorm{h_{I_{0,1}}}{2} \leq \frac{\beta}{\sqrt{\lambda}} \pnorm{h_{I_{0}}}{2}
-    $
+    $.
     From the condition on $\alpha,\beta, \lambda$, This can happen only if $\pnorm{h_{I_{0,1}}}{2} = 0$.
     Since $0 = \pnorm{h_{I_1}}{2}\geq \pnorm{h_{I_2}}{2}\geq \ldots$, we must have $h_{I_0^c} = h_{I_0} = 0$.
 \end{proof}
@@ -177,12 +174,14 @@ Now, the smallest coordinate of $h_{I_{j-1}}$ is smaller than the average of the
 Even though RIP gives a sufficient condition for exact
 recovery, constructing matrices that satisfy RIP is difficult.
 However, one can generate random matrices that satisfy RIP
-with high probability. We need bounds on the singular values
-of random matrices to prove such a result. We will use
+with high probability. Surprisingly, a sample from the collection
+$\mathcal{A}(m, n)$, that we saw in the previous section
+satisfies RIP with good parameters, with high probability.
+In order to prove such a result, we need bounds on the singular values.
+We will use
 the following bound on the singular values in the proof.
 \begin{theorem}\label{singularvaluebounds}
-	If $A$ is an $m\times n$ matrix with whose rows are mean zero,
-	isotropic, sub-gaussian random vectors in $\R^n$, then for any
+	If $A\in\mathcal{A}(m, n)$, then for any
 	$t\geq 0$,
 	\begin{equation}\label{singularvalueboundeq}
 		\sqrt{m} - CK^2(\sqrt{n}+t)\leq s_m(A_I)\leq s_1(A_I)
@@ -192,16 +191,16 @@ the following bound on the singular values in the proof.
 	represents the $i$th singular value of $A$ and $K$ is as before)
 \end{theorem}
 \noindent
-\textit{Sketch of proof: }
+% \textit{Sketch of proof: }
 The proof of uses the result that the operator norm
 $\norm{\frac{1}{m}A^TA - I_n}\leq \max(\delta, \delta^2)$ implies
 all the singular values of $A/\sqrt{m}$
 lie between $1-\delta$ and $1+\delta$.\\
-First, an $\epsilon$ net $\mathcal{N}$ is used to bound
+An $\epsilon$ net $\mathcal{N}$ is used to bound
 the supremum over the unit circle by a supremum over a
-finite set:
-$$\sup_{x\in S^{n-1}}\ip{(\frac{1}{m}A^TA-I_n)x}{x}\leq 
-C(\epsilon)\sup_{x\in\mathcal{N}}\ip{(\frac{1}{m}A^TA-I_n)x}{x}$$
+finite set.
+%$$\sup_{x\in S^{n-1}}\ip{(\frac{1}{m}A^TA-I_n)x}{x}\leq 
+%C(\epsilon)\sup_{x\in\mathcal{N}}\ip{(\frac{1}{m}A^TA-I_n)x}{x}.$$
 After that, Bernstein's inequality is used to find tail bounds
 for ${\ip{(\frac{1}{m}A^TA-I_n)x}{x}} = 
 \abs{\pnorm{\frac{Ax}{\sqrt{m}}}{2}^2 - 1} = 
@@ -210,42 +209,46 @@ Then a union bound over $\mathcal{N}$ is taken
 and finally, an appropriate value of $\delta$ is chosen
 to arrive at \eqref{singularvalueboundeq}.
 \indent
-\qed
 
 We can now use the bound \eqref{singularvalueboundeq} to
 generate random matrices that satisfies RIP with high probability.
 
-\begin{theorem}\label{randomripprop}
-	Suppose $A$ is an $m\times n$ matrix with mean zero, isotropic,
-	subgaussian rows. If $m\geq CK^4 s\log n$, then
-	A satisfies RIP with parameters $\alpha = 0.9\sqrt{m}, \beta = 1.1\sqrt{m}$ and
-	$s$ with probability at least $1-2\exp({-cm}/{K^4})$.
+\begin{theorem}[Candes--Tao, 2005]\label{randomripprop}
+	Suppose $A\in\mathcal{A}(m, n)$. If $m\geq CK^4 s\log n$, then
+	$A\in RIP(m, n, 0.9, 1.1, s)$ with probability
+	at least $1-2\exp({-cm}/{K^4})$.
 \end{theorem}
-
-\begin{proof}
+\noindent
+\textit{Sketch of proof:}
 	From remark \ref{ripremark}, we need to bound the singular values
-	for each $m\times s$ submatrix of $A$.\\
-	Fix a subset $I$, of size $s$, of $\{1,\ldots, n\}$.
-	Consider the $m\times s$ submatrix $A_I$.
-	Applying the bounds on singular values of random matrices with
-	mean zero, isotropic, subgaussian rows to $A_I$, we get:
-	\begin{equation*}
-		\sqrt{m} - CK^2(\sqrt{s}+t)\leq s_s(A_I)\leq s_1(A_I)
-			\leq \sqrt{m} + CK^2(\sqrt{s}+t)
-	\end{equation*}
-	for any $t\geq 0$, with probability at least $1-2\exp(-t^2)$.
-	Putting $t = \sqrt{m}/(DCK^2)$ and setting appropriate values
-	for the constants, we can get the singular values to be
-	bounded by $0.9\sqrt{m}$ and $1.1\sqrt{m}$ with probability
-	at least $1-2\exp(-2mc_1/K^4)$ (Here $2c_1 = 1/(D^2C^2)$).
-	A union bound can be used to find the probability that
-	this happens for each subset $I$ of size $s$. This gives
-	the probability that $A$ satisfies RIP to be at least
-	$1-2\exp(\frac{-2mc_1}{K^4})\binom{n}{s}$. Now, using
-	$\binom{n}{s}\leq n^s$, the bound on the probability becomes
-	$1-2\exp(\frac{-2mc_1}{K^4}+s\log n)$. From the hypothesis,
-	the exponent is at most $-\frac{mc_1}{K^4}$, proving the result.
-\end{proof}
+	for each $m\times s$ submatrix of $A$.
+	Using theorem \ref{singularvaluebounds}, bound for singular
+	values of each possible $m\times s$ submatrix $A_I$ can
+	be bounded. Since there are only $\binom{n}{s}$ such matrices,
+	we can use a union bound and use $\binom{n}{s}\leq n^s$.
+	%Fix a subset $I$, of size $s$, of $\{1,\ldots, n\}$.
+	%Consider the $m\times s$ submatrix $A_I$.
+	%Applying the bounds on singular values of random matrices with
+	%mean zero, isotropic, subgaussian rows to $A_I$, we get:
+	%\begin{equation*}
+	%	\sqrt{m} - CK^2(\sqrt{s}+t)\leq s_s(A_I)\leq s_1(A_I)
+	%		\leq \sqrt{m} + CK^2(\sqrt{s}+t)
+	%\end{equation*}
+	%for any $t\geq 0$, with probability at least $1-2\exp(-t^2)$.
+	%Putting $t = \sqrt{m}/(DCK^2)$ and setting appropriate values
+	%for the constants, we can get the singular values to be
+	%bounded by $0.9\sqrt{m}$ and $1.1\sqrt{m}$ with probability
+	%at least $1-2\exp(-2mc_1/K^4)$ (Here $2c_1 = 1/(D^2C^2)$).
+	%A union bound can be used to find the probability that
+	%this happens for each subset $I$ of size $s$. This gives
+	%the probability that $A$ satisfies RIP to be at least
+	%$1-2\exp(\frac{-2mc_1}{K^4})\binom{n}{s}$. Now, using
+	%$\binom{n}{s}\leq n^s$, the bound on the probability becomes
+	%$1-2\exp(\frac{-2mc_1}{K^4}+s\log n)$. From the hypothesis,
+	%the exponent is at most $-\frac{mc_1}{K^4}$, proving the result.
+%\end{proof}
+	\qed
+\indent
 
 \begin{remark}
 	The above theorem can be used to prove theorem
@@ -258,3 +261,95 @@ generate random matrices that satisfies RIP with high probability.
 	Thus exact recovery of $s$-sparse signals is possible by
 	the conclusion of theorem \ref{ripimpliesexact}.
 \end{remark}
+
+\subsection{Recovering signal from partial Fourier coefficients}
+	In this section we will consider the case when the
+	measurement matrix $A$ in \eqref{problem0} is
+	a fourier sub-matrix. In this section,
+	a signal $f$ is a vector in $\R^n$. The coordinates $f_n$
+	will be denoted by $f(n)$. We will also be dealing with
+	signals in $\C^n$, which poses no difficulty since all
+	the analysis
+	done so far in this section for signals in $\R^n$ can be
+	extended to complex signals.
+	\begin{definition}
+		The \emph{discrete fourier transform} of a signal $f\in \R^n$
+		is given by $\hat{f} = \mathcal{F}f$,
+		where $\mathcal{F}\in \R^{n\times n}$ is the fourier matrix,
+		whose $(a, b)$th entry is $\mathcal{F}(a,b) =
+		e^{(i2\pi ab)/n}/\sqrt{n}$.
+	\end{definition}
+	The	matrix $\mathcal{F}$ is a unitary matrix.
+	The domain of $f$ is called \emph{time} and the
+	domain of $\hat{f}$ is
+	called \emph{frequency}.
+	Since
+	$f = \mathcal{F}^* \hat{f}$, we can write $f(n)$ as
+	a linear combination of $\hat{f}(t)$ for $t = 1,\ldots, n$.
+	So, $\hat{f}(t)$s are also called the \emph{fourier coefficients}
+	of $f$.
+
+	Suppose a subset of fourier coefficients is known.
+	The objective is to recover the signal $f$, given that
+	$f$ is sparse. In order to obtain a sufficient
+	condition for recovery to be possible we make the
+	following definition.
+
+	\begin{definition}
+		Let $\Omega$ be a subset of frequency domain.
+		Let $\hat{f}_{\Omega} = \mathcal{F}_\Omega f$, where
+		$\mathcal{F}_\Omega$ is the $\abs{\Omega}\times n$
+		sub matrix of $\mathcal{F}$ formed by the indices in
+		$\Omega$. Then, $\Omega$ is said to have
+		Restricted Isometry Propery with sparsity $s$ and
+		error tolerance $\delta$, if for every $s$ sparse signal $f$,
+		\[
+			(1-\delta){\pnorm{f}{2}^2}/{N}\leq
+			{\pnorm{\hat{f}_{\Omega}}{2}^2}/{\abs{\Omega}}\leq
+			(1+\delta) {\pnorm{f}{2}^2}/{N}.
+		\]
+	\end{definition}
+	On comparing this definition to the RIP
+	property of matrices, it is clear that $\Omega$ satisfies
+	RIP if and only if $\sqrt{N/\abs{\Omega}}\mathcal{F}_\Omega
+	\in RIP(\abs{\Omega}, n,
+	\sqrt{1-\delta}, \sqrt{1+\delta})$.
+	Thus, by theorem \ref{ripimpliesexact}, the $s$-sparse
+	signal $f$ can be recovered using basis pursuit
+	if $\Omega$ has RIP with sparsity $4s$ and error tolerance
+	$0.25$.
+
+
+	This result by itself is not very different from
+	the ones we have seen so far, since we do not know which
+	subsets of frequency domain satisfies RIP. But the following
+	theorem says any randomly chosen subset which is sufficiently
+	large satisfies RIP.
+	
+	\begin{theorem}[Candes--Tao, 2006]
+		A randomly chosen subset $\Omega$ of frequency domain
+		of size $Cs\log^6 n$ will obey RIP with probability
+		$1-O(N^{-C})$.
+	\end{theorem}
+
+	\noindent
+	\textbf{Connection with Donoho-Stark uncertainty principle:} The
+	reason why RIP guarantee
+	exact recovery can be explained qualitatively by 
+	Donoho-Stark uncertainty principle. It states that for a signal
+	$f\in \R^n$, the product of the size of  supports, $\pnorm{f}{0}
+	\cdot\pnorm{\hat{f}}{0}\geq n$. So, the sparser the signal,
+	the larger is the support of its fourier transform.
+	The condition for RIP roughly states that the
+	$\ell_2$ norm of $f$ averaged over all the coordinates is
+	aproximately equal to the $\ell_2$ norm of $\hat{f}$ averaged
+	over the coordinates indexed by $\Omega$. Since $\mathcal{F}$
+	is unitary, $\hat{f}$ and $f$ have the same $\ell_2$ norms.
+	So, the total weight of $f$ is distributed
+	to the coordinates of $\hat{f}$.
+	If the support of $\hat{f}$ is large (i.e., when $f$ is sparse),
+	even for smaller
+	size of $\Omega$, the chances of missing the coordinates with
+	the most weights are low. Hence RIP is satisfied even with
+	smaller number of measurements.
+	\indent

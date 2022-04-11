@@ -1,8 +1,6 @@
 \documentclass{article}
 \usepackage{multicol}
-%\usepackage{biblatex}
-%\addbibresource{references.bib}
-\usepackage[top=1.5cm, bottom=1.5cm, left=1.5cm, right=1.5cm]{geometry}
+\usepackage[top=1.3cm, bottom=1.3cm, left=1.2cm, right=1.2cm]{geometry}
 \input{~/sem8/project/my_notes/header.tex}
 
 \title{Sparse recovery}
@@ -13,7 +11,8 @@
 \begin{document}
 	\maketitle
 
-	\input{abstract.tex}
+\input{abstract.tex}
+
 \begin{multicols}{2}	
 	\input{preliminaries.tex}
 
@@ -22,8 +21,8 @@
 	\input{exact_recovery.tex}
 
 	\input{matrix_recovery.tex}
-\end{multicols}
-\nocite{hdp, gp, chaining, compressiveSensing, tao1, tao2}
+\nocite{hdp, gp, chaining, compressiveSensing, tao1, tao2, candes-tao, fourier}
 \bibliography{references}
 \bibliographystyle{plain}
+\end{multicols}
 \end{document}
