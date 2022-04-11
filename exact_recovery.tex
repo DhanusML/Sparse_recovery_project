@@ -1,0 +1,260 @@
+\section{Exact recovery}
+
+In the previous section, we observed that
+a solution with small expected $\ell_2$ error can be obtained
+using basis pursuit. In this section, we will
+find the conditions under which the error becomes
+zero.
+\subsection{Recovery using Escape theorem}
+\begin{theorem}\label{exactrecoverytheorem}
+	In problem \eqref{problem0}, suppose the rows of $A$ are
+	independent, isotropic sub-gaussian random vectors and
+	$T = S$. If $m\geq CK^4 s\log n$, then with
+	probability at least $1-2\exp(-cm/K^4)$,
+	basis pursuit solves the sparse recovery problem
+	(that is, $\hat{x} = x$).
+	\end{theorem}
+\begin{remark}
+	The number of measurements $m$ depends linearly on
+	sparsity $s$ and logarithmically on the dimension of
+	the underlying space. This suggests that even for larger
+	dimensional spaces, sparse recovery is possible with
+	few meausrements.
+\end{remark}
+The main result that will be used to prove the theorem
+is escape theorem, which states that the kernel of a matrix
+with sub-gaussian rows misses sufficiently small subset of the unit sphere
+with high probability.
+
+\begin{theorem}\label{escapetheorem}
+	Consider $T\subseteq S^{n-1}$. Let $A$ be an $m\times n$
+	matrix whose rows are independent, isotropic sub gaussian
+	random vectors in $\R^n$. If
+	$m\geq CK^4w(T)^2$, then 
+	$T\cap \ker(A) = \emptyset$ with probability at least
+	$1-2\exp(-cm/K^4)$.
+\end{theorem}
+\begin{proof}
+	The proof uses tail bound version of matrix deviation inequality
+	$$\sup_{a\in T}\abs{\pnorm{Aa}{2}-\sqrt{m}\pnorm{a}{2}}
+		\leq CK^2(w(T)+u)$$
+	with probability at least $1-2\exp(-u^2)$.
+	Suppose the above event happens and $T\cap\ker(A)\neq\emptyset$.
+	If $a\in T\cap\ker(A)$, then putting $u = \sqrt{m}/(2CK^2)$,
+	the above
+	inequality becomes $\sqrt{m}\leq CK^2w(T) + \sqrt{m}/2$. That is,
+	$m \leq C'K^4w(T)^2$, which is contrary to the hypothesis. So
+	$T\cap E = \emptyset$ happens with probability at least $1-2\exp(-(cm)/K^4)$
+\end{proof}
+
+Before proving theorem \ref{exactrecoverytheorem}, we
+will prove the following lemma:
+
+\begin{lemma}\label{lemma1er}
+	Let $h = \hat{x} - x$
+	\begin{enumerate}
+			\item If $S = \supp(x)$, then $\pnorm{h_S}{1}\geq \pnorm{h_{S^c}}{1}$
+
+			\item $\pnorm{h}{1}\leq 2\sqrt{s}\pnorm{h}{2}$
+	\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+		Since $\hat{x}$ is the $\ell_1$ norm minimizer
+			and $x_{S^c} = 0$,
+			we have
+			$0\geq \pnorm{\hat{x}}{1} - \pnorm{x}{1} = \pnorm{\hat{x}_S}{1}
+			+ \pnorm{\hat{x}_{S^c}}{1} - \pnorm{x_S}{1} =
+			(\pnorm{\hat{x}_S}{1} - \pnorm{x_S}{1}) + \pnorm{h_{S^c}}{1}
+			\geq -\pnorm{\hat{x}_S- x_S}{1} + \pnorm{h_{S^c}}
+			= -\pnorm{h_{S}}{1} + \pnorm{h_{S^c}}{1}$. This proves
+			the first part.\\
+	For the second part, 
+	$\pnorm{h}{1} = \pnorm{h_S}{1} + \pnorm{h_{S^c}}{1}\leq 2\pnorm{h_S}{1}\leq 2\sqrt{s}\pnorm{h}{2}$
+	%	\begin{enumerate}
+%		\item $\pnorm{\hat{x}} =\pnorm{h+x}{1} = \pnorm{h_S + x_S}{1}
+%			+ \pnorm{h_{S^C} + x_{S^C}}{1} = \pnorm{h_S + x_S}{1} +\pnorm{h_{S^C}}{1}
+%			\geq \pnorm{x_{S}}{1} - \pnorm{h_S}{1} + \pnorm{h_{S^C}}{1}$
+%			Now, $\pnorm{\hat{x}}{1} - \pnorm{x_S}{1}\leq 0$. This proves the result.
+
+%		\item $\pnorm{h}{1} = \pnorm{h_S}{1}\leq 2\pnorm{h_S}{1}\leq 2\sqrt{s}\pnorm{h}{2}$
+%	\end{enumerate}
+\end{proof}
+%\hfil
+%\flushleft
+%\begin{center}
+\noindent
+	\textit{Proof of theorem \ref{exactrecoverytheorem}.}
+	Suppose $h\neq 0$, then $h/\pnorm{h}{2}\in S^{n-1}$. Also, from part 2 of
+	the lemma, $h/\pnorm{h}{2}\in 2\sqrt{s}B_1^n$. So, if $T = S^{n-1}\cap (2\sqrt{s}B_1^n)$,
+	then $h/\pnorm{h}{2}\in T\cap (\ker A)$, since $Ax = A\hat{x}$.
+	Now, $m\geq CK^4 s\log n \geq C'K^4 w(T)^2$ (because $w(T)\leq w(2\sqrt{s}B_1^n$)),
+	therefore, by theorem \ref{escapetheorem} $T\cap (\ker A) = \emptyset$ with high probability.
+	Thus $\hat{x} = x$ with probability at least $1-2\exp(-cm/K^4)$.
+%\end{center}
+\indent
+	\qed
+
+\subsection{Recovery using RIP}
+
+\begin{definition}
+	An $m\times n$ matrix $A$ satisfies Restricted Isometry Property (RIP) with
+	parameters $\alpha, \beta$ and $s$ if for every $s$-sparse vector
+	$w$,
+	\begin{equation*}
+		\alpha \pnorm{w}{2}\leq \pnorm{Aw}{2}\leq \beta\pnorm{w}{2}
+	\end{equation*}
+\end{definition}
+
+\begin{remark}\label{ripremark}
+	It is clear from the definition that $A$ satisfies RIP with
+	parameters $\alpha, \beta$ and $s$ if
+	and only if all the singular values of all $m\times s$ sub-matrices
+	of $A$ lie between $\alpha$ and $\beta$.
+\end{remark}
+
+\begin{theorem}\label{ripimpliesexact}
+	Suppose in \eqref{problem0}, $A$ satisfies RIP with parameters
+	$\alpha, \beta$ and $(1+\lambda)s$, with $\lambda >
+	(\beta/\alpha)^2$. Then basis pursuit \eqref{basispursuit}
+	exactly recovers the slolution to the sparse recovery problem.
+\end{theorem}
+
+\begin{proof}
+	Let $I_0$ be the support of $x$,
+	$I_1$ be the $\lambda s$ largest indices of $h_{I_0^c}$,
+	$I_2$ be the next $\lambda s$ largest indices and so on.
+	Let $I_{0,1} = I_0 \cup I_1$. For any set of indices
+	$I\subseteq \{1,\ldots n\}$, let $A_I$ be the $m\times |I|$
+	submatrix of $A$ with all but the columns in $I$ deleted.
+	Let $h = \hat{x}-x$.\\
+	By triangle inequality,
+$	
+		\pnorm{Ah}{2} = \pnorm{A_{I_{0,1}}h_{I_{0,1}} + A_{I_{0,1}^c}h_{I_{0,1}^c}}{2}\geq \pnorm{A_{I_{0,1}}h_{I_{0,1}}}{2} - \pnorm{A_{I_{0,1}^c}h_{I_{0,1}^c}}{2}
+$.
+Left hand side is zero, since $Ah = A\hat{x} - Ax = 0$.
+So,
+	\begin{equation}\label{cond1}
+		\pnorm{A_{I_{0,1}}h_{I_{0,1}}}{2}\leq \pnorm{A_{I_{0,1}^c}h_{I_{0,1}^c}}{2} 
+	\end{equation}
+Now, by RIP,
+	 \begin{equation}\label{cond2}
+		 \alpha \pnorm{h_{I_{0,1}}}{2}\leq \pnorm{A_{I_{0,1}}h_{I_{0,1}}}{2}
+	 \end{equation}
+By triangle inequality and RIP,
+		\begin{equation}\label{aboveinequality}
+            \pnorm{A_{I_{0,1}^c}h_{I_{0,1}^c}}{2} 
+			\leq  \sum_{j\geq 2} \pnorm{A_{I_j}h_{I_j}}{2}
+            \leq \beta\sum_{j\geq 2}\pnorm{h_{I_j}}{2}
+        \end{equation}
+Now observe that for any $j$,
+$
+		\pnorm{h_{I_j}}{2}\leq \sqrt{s\lambda}|\max{h_{I_j}}| \leq \sqrt{s\lambda}|\min h_{I_{j-1}}|
+	$ (here $\max$ and $\min$ are largest and smallest coordinates
+	respectively).
+Now, the smallest coordinate of $h_{I_{j-1}}$ is smaller than the average of the other coordinates so,
+        $
+		\pnorm{h_{I_j}}{2}\leq \sqrt{\lambda s}\frac{\pnorm{h_{I_{j-1}}}{1}}{{\lambda s}}
+        $.
+	Substituting this in \eqref{aboveinequality} gives
+        \begin{equation}\label{eqpen}
+			\pnorm{A_{I_{0,1}^c}h_{I_{0,1}^c}}{2}\leq (\beta/\sqrt{s\lambda)}\pnorm{h_{I_0^c}}{1}
+        \end{equation}
+    From the first part of lemma \ref{lemma1er}, $\pnorm{h_{I_0^c}}{1}\leq \pnorm{h_{I_0}}{1}$
+    By Cauchy-Schwarz inequality, $\pnorm{h_{I_0}}{1}\leq \sqrt{s}\pnorm{h_{I_0}}{2}$
+    Substituting this in \eqref{eqpen}, we get
+    \[
+        \pnorm{A_{I_{0,1}^c}h_{I_{0,1}^c}}{2}\leq \frac{\beta}{\sqrt{\lambda}}\pnorm{h_{I_0}}{2}
+    \]
+    From \eqref{cond1}, \eqref{cond2} and the above inequality, we get
+    $
+        \alpha \pnorm{h_{I_{0,1}}}{2} \leq \frac{\beta}{\sqrt{\lambda}} \pnorm{h_{I_{0}}}{2}
+    $
+    From the condition on $\alpha,\beta, \lambda$, This can happen only if $\pnorm{h_{I_{0,1}}}{2} = 0$.
+    Since $0 = \pnorm{h_{I_1}}{2}\geq \pnorm{h_{I_2}}{2}\geq \ldots$, we must have $h_{I_0^c} = h_{I_0} = 0$.
+\end{proof}
+
+Even though RIP gives a sufficient condition for exact
+recovery, constructing matrices that satisfy RIP is difficult.
+However, one can generate random matrices that satisfy RIP
+with high probability. We need bounds on the singular values
+of random matrices to prove such a result. We will use
+the following bound on the singular values in the proof.
+\begin{theorem}\label{singularvaluebounds}
+	If $A$ is an $m\times n$ matrix with whose rows are mean zero,
+	isotropic, sub-gaussian random vectors in $\R^n$, then for any
+	$t\geq 0$,
+	\begin{equation}\label{singularvalueboundeq}
+		\sqrt{m} - CK^2(\sqrt{n}+t)\leq s_m(A_I)\leq s_1(A_I)
+			\leq \sqrt{m} + CK^2(\sqrt{n}+t)
+	\end{equation}
+	with probability at least $1-2\exp(-t^2)$. (here $s_i(A)$
+	represents the $i$th singular value of $A$ and $K$ is as before)
+\end{theorem}
+\noindent
+\textit{Sketch of proof: }
+The proof of uses the result that the operator norm
+$\norm{\frac{1}{m}A^TA - I_n}\leq \max(\delta, \delta^2)$ implies
+all the singular values of $A/\sqrt{m}$
+lie between $1-\delta$ and $1+\delta$.\\
+First, an $\epsilon$ net $\mathcal{N}$ is used to bound
+the supremum over the unit circle by a supremum over a
+finite set:
+$$\sup_{x\in S^{n-1}}\ip{(\frac{1}{m}A^TA-I_n)x}{x}\leq 
+C(\epsilon)\sup_{x\in\mathcal{N}}\ip{(\frac{1}{m}A^TA-I_n)x}{x}$$
+After that, Bernstein's inequality is used to find tail bounds
+for ${\ip{(\frac{1}{m}A^TA-I_n)x}{x}} = 
+\abs{\pnorm{\frac{Ax}{\sqrt{m}}}{2}^2 - 1} = 
+\sum_i \frac{1}{m}(\ip{A_i}{x}^2-1)$.
+Then a union bound over $\mathcal{N}$ is taken
+and finally, an appropriate value of $\delta$ is chosen
+to arrive at \eqref{singularvalueboundeq}.
+\indent
+\qed
+
+We can now use the bound \eqref{singularvalueboundeq} to
+generate random matrices that satisfies RIP with high probability.
+
+\begin{theorem}\label{randomripprop}
+	Suppose $A$ is an $m\times n$ matrix with mean zero, isotropic,
+	subgaussian rows. If $m\geq CK^4 s\log n$, then
+	A satisfies RIP with parameters $\alpha = 0.9\sqrt{m}, \beta = 1.1\sqrt{m}$ and
+	$s$ with probability at least $1-2\exp({-cm}/{K^4})$.
+\end{theorem}
+
+\begin{proof}
+	From remark \ref{ripremark}, we need to bound the singular values
+	for each $m\times s$ submatrix of $A$.\\
+	Fix a subset $I$, of size $s$, of $\{1,\ldots, n\}$.
+	Consider the $m\times s$ submatrix $A_I$.
+	Applying the bounds on singular values of random matrices with
+	mean zero, isotropic, subgaussian rows to $A_I$, we get:
+	\begin{equation*}
+		\sqrt{m} - CK^2(\sqrt{s}+t)\leq s_s(A_I)\leq s_1(A_I)
+			\leq \sqrt{m} + CK^2(\sqrt{s}+t)
+	\end{equation*}
+	for any $t\geq 0$, with probability at least $1-2\exp(-t^2)$.
+	Putting $t = \sqrt{m}/(DCK^2)$ and setting appropriate values
+	for the constants, we can get the singular values to be
+	bounded by $0.9\sqrt{m}$ and $1.1\sqrt{m}$ with probability
+	at least $1-2\exp(-2mc_1/K^4)$ (Here $2c_1 = 1/(D^2C^2)$).
+	A union bound can be used to find the probability that
+	this happens for each subset $I$ of size $s$. This gives
+	the probability that $A$ satisfies RIP to be at least
+	$1-2\exp(\frac{-2mc_1}{K^4})\binom{n}{s}$. Now, using
+	$\binom{n}{s}\leq n^s$, the bound on the probability becomes
+	$1-2\exp(\frac{-2mc_1}{K^4}+s\log n)$. From the hypothesis,
+	the exponent is at most $-\frac{mc_1}{K^4}$, proving the result.
+\end{proof}
+
+\begin{remark}
+	The above theorem can be used to prove theorem
+	\ref{exactrecoverytheorem}: By replacing $s$ by $3s$
+	in the theorem, $A$ satisfies RIP with parameters
+	$0.9\sqrt{m}, 1.1\sqrt{m}$ and $3s$ with probability
+	at lest $1-2\exp(-cm/K^4)$. 
+	$A$ then satisfies the hypothesis of theorem
+	\ref{ripimpliesexact} with $\lambda = 2\geq (1.1/0.9)^2$.
+	Thus exact recovery of $s$-sparse signals is possible by
+	the conclusion of theorem \ref{ripimpliesexact}.
+\end{remark}

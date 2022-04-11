@@ -1,0 +1,102 @@
+\section{Low rank matrix recovery}
+	In this section, the problem we are trying to tackle is
+\begin{equation}\label{problemm}
+	\text{recover }X\text{ from }y_i = \ip{A_i}{X},
+	\,i=1\ldots, m \text{ when }X \in T
+\end{equation}
+where $y_i\in\R^m$, $X$, $A_i$ are $d\times d$ matrices
+and $T$ is a subset of real $d\times d$ matrices.
+The inner product is defined as  $\ip{A}{B}= \tr{A^T B}$
+for $d\times d$ matrices.
+
+	Till now, our notion of sparsity was $\pnorm{\cdot}{0}$.
+For matrices, there is another notion of sparsity,
+which is the rank.
+So we are interested in the solution of problem (\ref{problemm})
+when $T = R = \{M\in \R^{d\times d}: \rank(M)\leq r\}$.
+But, like $\pnorm{\cdot}{0}$, rank is
+also not a norm. Hence $S$ is not a convex set.
+As before, to convexify the set, we replace $\rank$ with the
+closest norm, which is the nuclear norm $\pnorm{\cdot}{*}$,
+defined as the sum of singular values.
+
+\begin{remark}\label{matrixnormsremark}
+	For the $d\times d$ matrix A, if we take $v\in\R^d$ to
+	be the $d$ dimensional vector of singular values,
+	$\rank(A) = \pnorm{v}{0}$, $\pnorm{A}{*} = \pnorm{v}{1}$
+	and the spectral norm $\norm{A} = \pnorm{v}{\infty}$.
+	The Frobenius norm of $A$, which is the square root of
+	sum of squares of all entries of $A$ can also be written
+	in terms of singular values as $\pnorm{A}{F} = \pnorm{v}{2}$.
+\end{remark}
+
+The equivalent to basis pursuit here is
+\begin{equation}\label{mbasispursuit}
+	\begin{split}
+		&\hat{X} = \arg\min\pnorm{X'}{*}\\
+		&\text{subject to: } \ip{A_i}{X'} = y_i,\text{ for each }
+		i = 1\ldots n
+	\end{split}
+\end{equation}
+
+From the above remark and proposition \ref{inclusiontheorem},
+we have $R\cap B_F \subseteq \sqrt{r}B_*$ ($B_F$ and $B_*$ are
+unit balls in Frobenius and nuclear norms).
+Now, if we assume $T =  B_F\cap R$, the calculations that
+lead to \eqref{scaledl1ball} in this case gives
+\begin{equation}\label{errorm}
+	\E\sup_{\substack{\hat{X}'\in \sqrt{r}B_1\\ \ip{A_i}{X'} = y_i}}
+	\pnorm{X'-X}{F}\leq \frac{CK^2\sqrt{r} w(B_*)}{\sqrt{m}}
+\end{equation}
+Note that $K = \max_i \pnorm{A_i}{\psi_2}$, where $A_i$
+must be seen as a $d\times d$ vector.
+
+\begin{proposition}
+	The gaussian width of the unit ball under nuclear norm,
+	$w(B_*) \leq \E \norm{G}$, where $\norm{\cdot}$ is the operarator norm
+	and $G$ is a matrix with each entry being independent $N(0, 1)$
+	random variables.
+\end{proposition}
+\begin{proof}
+	$w(B_*) = \E\sup\ip{G}{M}$, where $\pnorm{M}{*} = 1$.
+	Now, $\ip{G}{M} = \tr(M^TG)$. If $M = A\Sigma B^T$ is the
+	singular value decomposition of $M$, using the cyclic propery
+	of trace, we get $\tr(M^TG) = \tr(\Sigma A^T G B)$. Since
+	$\Sigma$ is a diagonel matrix of singular values,
+	$\tr(\Sigma A^T G B) = \sum_{i=1}^d s_i(M)\ip{a_i}{Gb_i}$,
+	where $a_i$ and $b_i$ are the columns of $A$ and $B$ respectively.
+	Now, $a_i$ and $b_i$ are unit vectors, so by using Cauchy-Schwarz
+	inequality, we get $\tr(M^TG)\leq \norm{G}\sum_i s_i(M)=
+	\norm{G}$.
+\end{proof}
+
+To find the expected operator norm of $G$, we observe that
+$({G_{uv}})_{u,v\in S^{d-1}}$ is a mean zero gaussian process and that
+the increments of the random process $G_{uv}$,
+$\E(G_{u_1v_1}-G_{u_2v_2})^2$ are bounded by the
+increments of another mean zero gaussian process
+$(H_{uv})_{u,v\in S^{d-1}} = \ip{g}{u} + \ip{h}{v}$, where
+$g, v$ are independent standard normal random vectors
+in $\R^d$.
+Now,
+Sudakov-Fernique comparison inequality can be used to obtain
+$\sup_{u,v\in S^{d-1}}G_{uv} \leq \sup_{u,v\in S^{d-1}}H_{uv} = \E\pnorm{g}{2}
++ \E\pnorm{h}{2}\leq 2\E\sqrt{\pnorm{h}{2}^2} = 2\sqrt{d}$.
+Using this and 
+%From %remark \ref{matrixnormsremark} and
+theorem \ref{basispursuiterror}, we have
+the following bound:
+\begin{theorem}
+	If $\hat{X}$ is the solution of problem
+	\ref{mbasispursuit}, then
+	\begin{equation*}
+		\E \pnorm{\hat{X}-X}{F}\leq CK^2\sqrt{\frac{rd}{m}}
+		\pnorm{X}{F}
+	\end{equation*}
+\end{theorem}
+
+\begin{proof}
+	$\hat{X}/\pnorm{X}{F}$ and $X/\pnorm{X}{F}$ are in
+	$\sqrt{r}B_*$. Now \eqref{errorm} can be used to
+	get the result.
+\end{proof}

@@ -1,0 +1,11 @@
+# ignore all files
+*
+
+# except these files
+!.gitignore
+!*.tex
+!*.pdf
+!*.bib
+
+# ignore draft.pdf too
+draft.pdf

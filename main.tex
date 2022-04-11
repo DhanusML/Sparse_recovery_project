@@ -1,0 +1,29 @@
+\documentclass{article}
+\usepackage{multicol}
+%\usepackage{biblatex}
+%\addbibresource{references.bib}
+\usepackage[top=1.5cm, bottom=1.5cm, left=1.5cm, right=1.5cm]{geometry}
+\input{~/sem8/project/my_notes/header.tex}
+
+\title{Sparse recovery}
+\author{Dhanus M Lal\\
+\small{Advisor: Manjunath Krishnapur}}
+\date{April 2020}
+
+\begin{document}
+	\maketitle
+
+	\input{abstract.tex}
+\begin{multicols}{2}	
+	\input{preliminaries.tex}
+
+	\input{content1.tex}
+
+	\input{exact_recovery.tex}
+
+	\input{matrix_recovery.tex}
+\end{multicols}
+\nocite{hdp, gp, chaining, compressiveSensing, tao1, tao2}
+\bibliography{references}
+\bibliographystyle{plain}
+\end{document}

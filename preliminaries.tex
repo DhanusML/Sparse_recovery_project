@@ -1,0 +1,49 @@
+\section{Preliminaries}
+\begin{definition}
+	A random variable $X$ is said to be \emph{sub-gaussian}
+	if $\prob(\abs{X}\geq t)\leq 2\exp(-t^2/K^2)$ for
+	every $t\geq 0$. The \emph{sub-gaussian norm}, $\pnorm{X}{\psi_2}$,
+	of $X$ is then proportional to $K$.
+	A random vector $X$ in $\R^n$ is sub-gaussian if
+	$\ip{X}{x}$ is subgaussian for every $x\in\R^n$. Its
+	sub-gaussian norm, $\pnorm{X}{\psi_2} := \sup_{x\in\R^n}
+	\pnorm{\ip{X}{x}}{\psi_2}$.
+\end{definition}
+
+\begin{definition}
+	The \emph{gaussian width} $w(T)$ of a subset $T\subseteq \R^n$ is
+	defined as $\E\sup_{x\in T}\ip{x}{g}$ and its \emph{gaussian
+	complexity} as $\gamma(T) = \E\sup_{x\in T}\abs{\ip{x}{g}}$,
+	where $g\sim N(0, I_n)$.
+\end{definition}
+
+\begin{definition}
+	A random vector $X \in \R^n$ is said to
+	be \emph{isotropic} if $\E[XX^T] = I_n$, where
+	$I_n$ is the identity matrix in $\R^n$.
+\end{definition}
+
+\begin{definition}[Sparsity]
+	The \emph{support} of a vector $x\in \R^n$ is the set
+	$\{i\in\{1,\ldots,n\}: x_i\neq 0\}$ (the set of non-zero indices).
+	The \emph{sparsity} of a vector $x$ in $\R^n$ is defined as the
+	cardinality of its support and is denoted by $\pnorm{x}{0}$.
+	A vector with $\pnorm{x}{0}\leq s$ is said to be $s-$sparse.
+\end{definition}
+The problem we are trying to solve is:
+\begin{equation}\label{problem0}
+	\text{recover }x\text{ from }y = Ax,\text{ when }x\in T
+\end{equation}
+where $y\in\R^m$, $x\in\R^n$, $A\in\R^{m\times n}$ and $m\ll n$, when
+it is known that $x\in T$.
+Without the condition that $x\in T$, the set of all possible values for $x$
+forms a subspace of dimension at least $n-m$.
+Adding this restriction can reduce the number of possibilities for $x$
+significantly. For sparse recovery, we are interested in the case when
+$T = S$, where $S = \{x\in\R^n: \pnorm{x}{0}\leq s\}$.\\
+
+Henceforth, $x$ will denote the correct solution of problem \eqref{problem0},
+$y$ will represent the linear measurement $Ax$ of $x$ and $S$
+will denote the set of $s$-sparse vectors.
+$C, C', c, c'$ and $c$ with sub-scripts will always denote universal
+constants.

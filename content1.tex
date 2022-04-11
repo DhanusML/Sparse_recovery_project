@@ -1,0 +1,99 @@
+\section{Recovery based on $M^*$ bound}
+\begin{theorem}[Matrix deviation inequality]
+	Suppose $A$ is an $m\times n$ real matrix, whose rows 
+	$A_i$ are independent, isotropic, sub-gaussian random vectors
+	in $\R^n$ then for $T\subseteq \R^n$,
+	\begin{equation}\label{matrixdeviation}
+		\E \sup_{x\in T} \abs{\pnorm{Ax}{2}-\sqrt{m}\pnorm{x}{2}}
+			\leq CK^2\gamma(T).
+	\end{equation}
+	Here $K = \max_i \pnorm{A_i}{\psi_2}$.
+\end{theorem}
+This theorem is proved by first showing that the increments of
+the random process in the argument is bounded by a gaussian
+random process and then using Talagrand's comparison inequality.
+\begin{theorem}[$M^*$ bound]\label{mstarboundtheorem}
+	Suppose $T\subseteq \R^n$ and $A$ is an $m\times n$ real
+	matrix whose rows $A_i$ are independent, isotropic, sub-gaussian
+	random vectors in $\R^n$, then for any $z\in\R^n$, $E = z+\ker(A)$ satisfies
+	\begin{equation}\label{mstarbound}
+		\E \text{diam}(T\cap E)\leq \frac{CK^2w(T)}{\sqrt{m}}.
+	\end{equation}
+	Here, $K$ is the same as that in the previous theorem.
+\end{theorem}
+\begin{proof}
+	Use matrix deviation inequality on the set $T-T$ to get
+	$$\E\sup_{a,b\in T}\abs{\pnorm{Aa-Ab}{2}-\sqrt{m}\pnorm{a-b}{2}}\leq CK^2\gamma(T-T)$$
+	The right hand side is equal to $2CK^2 w(T)$ because $\gamma(T-T) = 2w(T)$.
+	If we restrict $a, b$ to be in $E$, then $Aa-Ab = z-z= 0$ and the left side of the 
+	inequality above becomes $\sqrt{m}(\diam({T\cap E}))$.
+\end{proof}
+
+A candidate solution for the problem \eqref{problem0} is any vector $\hat{x}\in T$
+satisfying $A\hat{x} = y$.
+If we take $A$ in \eqref{problem0} to be as in the hypothesis of the above theorem,
+Then theorem \ref{mstarboundtheorem} gives a bound on expected $\ell_2$ error as
+\begin{equation}\label{mstarrecovery}
+	\E\sup_{\substack{{x'}\in T\\ A{x'}=y}}\pnorm{x-{x'}}{2}
+		\leq \frac{CK^2}{\sqrt{m}} w(T)
+\end{equation}
+
+From the bound \eqref{mstarrecovery}, an approximate solution for the recovery problem
+\eqref{problem0} in the case when $T = S$
+can be posed as an optimization problem as follows:
+\begin{equation}\label{optprob0}
+	\begin{split}
+		&\tilde{x} = \arg\min\pnorm{x'}{0}\\
+		&\text{subject to: } x'\in S,  Ax' = y
+	\end{split}
+\end{equation}
+Then the bound in \eqref{mstarrecovery} is valid for $\tilde{x}$.
+
+This problem is computationally hard. So, we try to approximate
+by using the closest norm to $\pnorm{\cdot}{0}$, which is the $\ell_1$ norm.
+To that end, we show that the set of unit $s$-sparse vectors is contained
+in a scaled $\ell_1$ ball:
+\begin{proposition}\label{inclusiontheorem}
+	Let $B_1^n, B_2^n\in \R^n$ denote the unit balls
+	with respect to the $\ell_1$ and $\ell_2$ norms respectively, then
+	$S\cap B_2^n \subseteq \sqrt{s} B_1^n$
+\end{proposition}
+
+\begin{proof}
+	For any $x\in S\cap B_2^n$, using Cauchy-Schwarz inequality,
+	$\pnorm{x}{1}\leq \sqrt{\pnorm{x}{0}}\cdot \pnorm{x}{2}\leq \sqrt{s}$.
+\end{proof}
+Now, applying \eqref{mstarrecovery} with $T = S\cap B_2^n$, we get
+\begin{equation}\label{scaledl1ball}
+	\E\sup_{\hat{x}\in B_1^n, A\hat{x}=y}\pnorm{x-\hat{x}}{2}\leq CK^2\sqrt{\frac{s\log n}{m}}.
+\end{equation}
+Here we have used the linearity propery of Gaussian width, $w(\sqrt{s}B_1^n)=\sqrt{s}w(B_1^n)$
+and that $w(B_1^n) = \E\max_{i\leq n} g_i$, where $g_i$ are standard normal random variables.
+And finally we used the result that the expected maximum of $n$ gaussians can be
+bounded by $C\sqrt{\log N}$ for a universal constant $C$.
+
+The condition that $\pnorm{x}{2}\leq 1$ can be removed and the problem can be stated as
+ an optimization problem like \eqref{optprob0} as follows:
+ \begin{equation}\label{basispursuit}
+	 \begin{split}
+		 &\hat{x} = \arg\min\pnorm{x'}{1}\\
+		 &\text{subject to: } Ax' = y
+	 \end{split}
+ \end{equation}
+ This is a convex optimization problem called basis-pursuit.
+ It is computationally feasible and can be solved using standard
+ convex optimization methods like linear programming.
+
+\begin{theorem}\label{basispursuiterror}
+	$\hat{x}$, the solution of basis pursuit \eqref{basispursuit} satisfies
+	\begin{equation*}
+		\E\pnorm{x-\hat{x}}{2}\leq CK^2\sqrt{\frac{s\log n}{m}}\pnorm{x}{2}
+	\end{equation*}
+\end{theorem}
+\begin{proof}
+	Since $\hat{x}$ is the minimizer, $\pnorm{\hat{x}}{1}\leq \pnorm{x}{1}\leq \sqrt{s}\pnorm{x}{2}$.
+	Thus $\hat{x}/\pnorm{x}{2}, x/\pnorm{x}{2}\in \sqrt{s}B_1^n$.
+	Using \eqref{scaledl1ball}, we get
+	$\E\pnorm{(\hat{x}-x)/\pnorm{x}{2}}{2}\leq CK^2\sqrt{(s\log n)/m}$.
+	Taking $\pnorm{x}{2}$ to the other side gives the result.
+\end{proof}
