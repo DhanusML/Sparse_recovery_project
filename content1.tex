@@ -68,7 +68,7 @@ in the $\ell_1$ ball scaled by the square root of sparsity.
 That is, if $B_1^n$ and $B_2^n$ are the unit balls with respect
 to the $\ell_1$ and $\ell_2$ norms respectively, then
 \begin{equation}\label{inclusiontheorem}
-	S\cap B_2^n\subseteq \sqrt{s} B_1^n
+	S\cap B_2^n\subseteq \sqrt{s} B_1^n.
 \end{equation}
 %since for any $x\in S\cap B_2^n$, using
 %cauchy 
@@ -86,7 +86,7 @@ to the $\ell_1$ and $\ell_2$ norms respectively, then
 Now, applying \eqref{mstarrecovery} with $T = S\cap B_2^n$, we get
 \begin{equation}\label{scaledl1ball}
 	\E\sup_{\hat{x}\in B_1^n, A\hat{x}=y}\pnorm{x-\hat{x}}{2}\leq
-	CK^2\sqrt{{s\log n}/{m}}.
+	CK^2\sqrt{({s\log n})/{m}}.
 \end{equation}
 Here we have used the linearity propery of Gaussian width, $w(\sqrt{s}B_1^n)=\sqrt{s}w(B_1^n)$
 and that $w(B_1^n) = \E\max_{i\leq n} g_i$, where $g_i$ are standard normal random variables.

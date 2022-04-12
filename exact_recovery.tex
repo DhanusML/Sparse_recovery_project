@@ -91,7 +91,10 @@ will prove the following lemma:
 %\end{center}
 \indent
 	\qed
-
+%\begin{remark}
+%	For this report, the book by Vershynin\cite{hdp} was closely
+%	followed. So, most of the results are his own contribution.
+%\end{remark}
 \section{Recovery using RIP}\label{RIP}
 Now we will consider a different class of matrices.
 \begin{definition}
@@ -103,7 +106,7 @@ Now we will consider a different class of matrices.
 	\end{equation*}
 	The set of $m\times n$ matrices satisfying RIP with parameters
 	$\alpha, \beta$ and $s$ will be denoted by
-	$RIP(m,n,\alpha, \beta, s)$.
+	$\mbox{RIP}(m,n,\alpha, \beta, s)$.
 \end{definition}
 
 \begin{remark}\label{ripremark}
@@ -157,17 +160,19 @@ Now observe that for any $j$,
         \begin{equation}\label{eqpen}
 			\pnorm{A_{I_{0,1}^c}h_{I_{0,1}^c}}{2}\leq (\beta/\sqrt{s\lambda)}\pnorm{h_{I_0^c}}{1}.
         \end{equation}
-    From the first part of lemma \ref{lemma1er}, $\pnorm{h_{I_0^c}}{1}\leq \pnorm{h_{I_0}}{1}$
-    By Cauchy-Schwarz inequality, $\pnorm{h_{I_0}}{1}\leq \sqrt{s}\pnorm{h_{I_0}}{2}$
+    From the first part of lemma \ref{lemma1er} and
+	Cauchy-Schwarz inequality, $\pnorm{h_{I_0^c}}{1}\leq
+	\pnorm{h_{I_0}}{1}\leq \sqrt{s}\pnorm{h_{I_0}}{2}$.
+    %By Cauchy-Schwarz inequality, $\pnorm{h_{I_0}}{1}\leq \sqrt{s}\pnorm{h_{I_0}}{2}$
     Substituting this in \eqref{eqpen}, we get
     $
         \pnorm{A_{I_{0,1}^c}h_{I_{0,1}^c}}{2}\leq \frac{\beta}{\sqrt{\lambda}}\pnorm{h_{I_0}}{2}.
     $
-    From \eqref{cond1}, \eqref{cond2} and the previous inequality, we get
+    From \eqref{cond1}, \eqref{cond2} and the previous inequality, we see that
     $
         \alpha \pnorm{h_{I_{0,1}}}{2} \leq \frac{\beta}{\sqrt{\lambda}} \pnorm{h_{I_{0}}}{2}
     $.
-    From the condition on $\alpha,\beta, \lambda$, This can happen only if $\pnorm{h_{I_{0,1}}}{2} = 0$.
+    But, from the condition on $\alpha,\beta, \lambda$, This can happen only if $\pnorm{h_{I_{0,1}}}{2} = 0$.
     Since $0 = \pnorm{h_{I_1}}{2}\geq \pnorm{h_{I_2}}{2}\geq \ldots$, we must have $h_{I_0^c} = h_{I_0} = 0$.
 \end{proof}
 
@@ -197,7 +202,7 @@ $\norm{\frac{1}{m}A^TA - I_n}\leq \max(\delta, \delta^2)$ implies
 all the singular values of $A/\sqrt{m}$
 lie between $1-\delta$ and $1+\delta$.\\
 An $\epsilon$ net $\mathcal{N}$ is used to bound
-the supremum over the unit circle by a supremum over a
+the supremum over the unit sphere by a supremum over a
 finite set.
 %$$\sup_{x\in S^{n-1}}\ip{(\frac{1}{m}A^TA-I_n)x}{x}\leq 
 %C(\epsilon)\sup_{x\in\mathcal{N}}\ip{(\frac{1}{m}A^TA-I_n)x}{x}.$$
@@ -215,7 +220,7 @@ generate random matrices that satisfies RIP with high probability.
 
 \begin{theorem}[Candes--Tao, 2005]\label{randomripprop}
 	Suppose $A\in\mathcal{A}(m, n)$. If $m\geq CK^4 s\log n$, then
-	$A\in RIP(m, n, 0.9, 1.1, s)$ with probability
+	$A\in \mbox{RIP}(m, n, 0.9, 1.1, s)$ with probability
 	at least $1-2\exp({-cm}/{K^4})$.
 \end{theorem}
 \noindent
@@ -265,17 +270,17 @@ generate random matrices that satisfies RIP with high probability.
 \subsection{Recovering signal from partial Fourier coefficients}
 	In this section we will consider the case when the
 	measurement matrix $A$ in \eqref{problem0} is
-	a fourier sub-matrix. In this section,
-	a signal $f$ is a vector in $\R^n$. The coordinates $f_n$
+	a Fourier sub-matrix. 
+	A signal $f$ is a vector in $\R^n$ whose coordinates $f_n$
 	will be denoted by $f(n)$. We will also be dealing with
 	signals in $\C^n$, which poses no difficulty since all
 	the analysis
 	done so far in this section for signals in $\R^n$ can be
 	extended to complex signals.
 	\begin{definition}
-		The \emph{discrete fourier transform} of a signal $f\in \R^n$
+		The \emph{discrete Fourier transform} of a signal $f\in \R^n$
 		is given by $\hat{f} = \mathcal{F}f$,
-		where $\mathcal{F}\in \R^{n\times n}$ is the fourier matrix,
+		where $\mathcal{F}\in \R^{n\times n}$ is the Fourier matrix,
 		whose $(a, b)$th entry is $\mathcal{F}(a,b) =
 		e^{(i2\pi ab)/n}/\sqrt{n}$.
 	\end{definition}
@@ -285,11 +290,11 @@ generate random matrices that satisfies RIP with high probability.
 	called \emph{frequency}.
 	Since
 	$f = \mathcal{F}^* \hat{f}$, we can write $f(n)$ as
-	a linear combination of $\hat{f}(t)$ for $t = 1,\ldots, n$.
-	So, $\hat{f}(t)$s are also called the \emph{fourier coefficients}
+	a linear combination of $\hat{f}(t)$ for $t = 1,\ldots, n$,
+	$\hat{f}(t)$s are also called the \emph{Fourier coefficients}
 	of $f$.
 
-	Suppose a subset of fourier coefficients is known.
+	Suppose a subset of Fourier coefficients is known.
 	The objective is to recover the signal $f$, given that
 	$f$ is sparse. In order to obtain a sufficient
 	condition for recovery to be possible we make the
@@ -312,22 +317,23 @@ generate random matrices that satisfies RIP with high probability.
 	On comparing this definition to the RIP
 	property of matrices, it is clear that $\Omega$ satisfies
 	RIP if and only if $\sqrt{N/\abs{\Omega}}\mathcal{F}_\Omega
-	\in RIP(\abs{\Omega}, n,
+	\in \mbox{RIP}(\abs{\Omega}, n,
 	\sqrt{1-\delta}, \sqrt{1+\delta})$.
 	Thus, by theorem \ref{ripimpliesexact}, the $s$-sparse
 	signal $f$ can be recovered using basis pursuit
-	if $\Omega$ has RIP with sparsity $4s$ and error tolerance
-	$0.25$.
+	if $\Omega$ satisfies RIP with say, sparsity
+	$4s$ and error tolerance $0.25$.
 
 
-	This result by itself is not very different from
-	the ones we have seen so far, since we do not know which
+	This result by itself is not very useful,
+	since we do not know which
 	subsets of frequency domain satisfies RIP. But the following
 	theorem says any randomly chosen subset which is sufficiently
 	large satisfies RIP.
 	
 	\begin{theorem}[Candes--Tao, 2006]
-		A randomly chosen subset $\Omega$ of frequency domain
+		When $f$ is $s$-sparse, a randomly chosen
+		subset $\Omega$ of frequency domain
 		of size $Cs\log^6 n$ will obey RIP with probability
 		$1-O(N^{-C})$.
 	\end{theorem}
@@ -339,7 +345,7 @@ generate random matrices that satisfies RIP with high probability.
 	Donoho-Stark uncertainty principle. It states that for a signal
 	$f\in \R^n$, the product of the size of  supports, $\pnorm{f}{0}
 	\cdot\pnorm{\hat{f}}{0}\geq n$. So, the sparser the signal,
-	the larger is the support of its fourier transform.
+	the larger is the support of its Fourier transform.
 	The condition for RIP roughly states that the
 	$\ell_2$ norm of $f$ averaged over all the coordinates is
 	aproximately equal to the $\ell_2$ norm of $\hat{f}$ averaged
